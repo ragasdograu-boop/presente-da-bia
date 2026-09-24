@@ -1,0 +1,2255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Aniversário da Bia</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+
+    background:
+        linear-gradient(135deg,
+        #eadcff,
+        #d8c5ff,
+        #f1e8ff);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #3f275f;
+}
+
+.container {
+    width: 95%;
+    max-width: 650px;
+
+    background: white;
+
+    border-radius: 25px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 15px 40px rgba(91, 52, 140, 0.25);
+
+    text-align: center;
+}
+
+h1 {
+    color: #7b3fc6;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #7040ad;
+}
+
+p {
+    line-height: 1.5;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+
+    border-radius: 14px;
+
+    padding: 13px 22px;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    background: #8b5bd1;
+    color: white;
+
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: scale(1.04);
+    background: #7345b8;
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+.oculto {
+    display: none;
+}
+
+/* =========================
+   PONTUAÇÃO
+========================= */
+
+.pontuacao {
+    background: #f0e5ff;
+
+    padding: 10px;
+
+    border-radius: 12px;
+
+    margin-bottom: 20px;
+
+    font-weight: bold;
+
+    color: #6d3eaa;
+}
+
+.progresso-container {
+    width: 100%;
+
+    height: 12px;
+
+    background: #eadcff;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    margin-bottom: 25px;
+}
+
+.progresso {
+    height: 100%;
+
+    width: 0%;
+
+    background: linear-gradient(
+        90deg,
+        #9b6ce0,
+        #7040ad
+    );
+
+    transition: width 0.5s ease;
+}
+
+/* =========================
+   MENU
+========================= */
+
+.menu-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 15px;
+
+    margin-top: 25px;
+}
+
+.card {
+    background: #f5efff;
+
+    border: 2px solid #dfcdf8;
+
+    border-radius: 18px;
+
+    padding: 20px;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+
+    border-color: #9b6ce0;
+
+    background: #eee2ff;
+}
+
+.card h3 {
+    margin: 5px 0;
+
+    color: #7040ad;
+}
+
+.card p {
+    font-size: 14px;
+}
+
+.card.completo {
+    opacity: 0.6;
+
+    cursor: default;
+
+    background: #e8dcf7;
+}
+
+.card.completo:hover {
+    transform: none;
+
+    border-color: #dfcdf8;
+}
+
+.check {
+    font-size: 25px;
+}
+
+/* =========================
+   PRESENTES
+========================= */
+
+.presentes {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 20px;
+
+    margin: 35px 0;
+}
+
+.presente {
+    width: 100px;
+    height: 100px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #f0e5ff;
+
+    border: 3px solid #c7a9ed;
+
+    border-radius: 20px;
+
+    font-size: 50px;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.presente:hover {
+    transform: translateY(-7px) rotate(-2deg);
+
+    background: #e7d6ff;
+}
+
+.presente.escolhido {
+    transform: scale(1.15);
+
+    border-color: #7b3fc6;
+}
+
+.resultado {
+    min-height: 110px;
+
+    padding: 15px;
+
+    margin: 20px 0;
+
+    border-radius: 15px;
+
+    background: #f6f0ff;
+
+    font-weight: bold;
+
+    line-height: 1.6;
+}
+
+/* =========================
+   MEMÓRIA
+========================= */
+
+.memoria-info {
+    margin-bottom: 15px;
+
+    font-weight: bold;
+}
+
+.memoria-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 10px;
+
+    max-width: 500px;
+
+    margin: 20px auto;
+}
+
+.carta {
+    aspect-ratio: 1;
+
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #9b6ce0,
+        #7040ad
+    );
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 32px;
+
+    cursor: pointer;
+
+    color: transparent;
+
+    transition: transform 0.25s;
+}
+
+.carta.virada,
+.carta.encontrada {
+    background: #eee2ff;
+
+    color: #4a3064;
+
+    transform: rotateY(180deg);
+}
+
+.carta.encontrada {
+    border: 3px solid #8b5bd1;
+
+    transform: scale(0.95);
+}
+
+.mensagem-rodada {
+    min-height: 70px;
+
+    margin: 15px 0;
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    background: #f6f0ff;
+
+    font-weight: bold;
+}
+
+/* =========================
+   REFLEXO
+========================= */
+
+.reflexo-circulo {
+    width: 200px;
+    height: 200px;
+
+    border-radius: 50%;
+
+    margin: 30px auto;
+
+    background: linear-gradient(
+        135deg,
+        #8b5bd1,
+        #7040ad
+    );
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    user-select: none;
+
+    transition: 0.2s;
+
+    box-shadow:
+        0 10px 30px rgba(112, 64, 173, 0.3);
+}
+
+.reflexo-circulo.esperar {
+    background: #c9b4e9;
+
+    color: #4f386b;
+}
+
+.reflexo-circulo.agora {
+    background: linear-gradient(
+        135deg,
+        #8fcf9c,
+        #5cae70
+    );
+
+    transform: scale(1.08);
+}
+
+.reflexo-circulo.erro {
+    background: #d27b8c;
+}
+
+/* =========================
+   CÓDIGO SECRETO
+========================= */
+
+.codigo-sequencia {
+    min-height: 80px;
+
+    background: #f0e5ff;
+
+    border-radius: 15px;
+
+    padding: 20px;
+
+    font-size: 40px;
+
+    margin: 20px 0;
+}
+
+.codigo-opcoes {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 10px;
+
+    max-width: 450px;
+
+    margin: 20px auto;
+}
+
+.codigo-opcoes button {
+    font-size: 28px;
+
+    padding: 12px;
+
+    background: #eee2ff;
+
+    color: #54356f;
+
+    border: 2px solid #d5bdf3;
+}
+
+.codigo-opcoes button:hover {
+    background: #dcc8f8;
+}
+
+.codigo-tela-inicial {
+    padding: 20px 10px;
+}
+
+.codigo-icone {
+    font-size: 70px;
+
+    margin: 10px;
+}
+
+/* =========================
+   FINAL
+========================= */
+
+.final {
+    padding: 20px;
+}
+
+.final h1 {
+    font-size: 38px;
+}
+
+.nota-final {
+    font-size: 50px;
+
+    font-weight: bold;
+
+    color: #7b3fc6;
+
+    margin: 20px 0;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 550px) {
+
+    .container {
+        padding: 20px;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .presentes {
+        gap: 10px;
+    }
+
+    .presente {
+        width: 80px;
+        height: 80px;
+
+        font-size: 40px;
+    }
+
+    .memoria-grid {
+        gap: 7px;
+    }
+
+    .carta {
+        font-size: 25px;
+    }
+
+    .reflexo-circulo {
+        width: 170px;
+        height: 170px;
+    }
+
+    .codigo-opcoes {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- =========================
+         INÍCIO
+    ========================== -->
+
+    <section id="inicio">
+
+        <h1>🎂 ANIVERSÁRIO DA BIA</h1>
+
+        <p>
+            Você foi selecionada para participar de uma
+            experiência extremamente importante.
+        </p>
+
+        <p>
+            Existem quatro desafios esperando por você.
+        </p>
+
+        <button id="comecar">
+            COMEÇAR
+        </button>
+
+    </section>
+
+
+    <!-- =========================
+         MENU
+    ========================== -->
+
+    <section id="menu" class="oculto">
+
+        <h2>🎮 DESAFIOS</h2>
+
+        <div class="pontuacao">
+            Pontuação:
+            <span id="pontuacao">0</span>/100
+        </div>
+
+        <div class="progresso-container">
+            <div
+                class="progresso"
+                id="progresso">
+            </div>
+        </div>
+
+        <div class="menu-grid">
+
+            <div
+                class="card"
+                id="desafioPresentes">
+
+                <div class="check"></div>
+
+                <h3>🎁 Presente Misterioso</h3>
+
+                <p>
+                    Encontre o presente especial.
+                </p>
+
+                <strong>20 pontos</strong>
+
+            </div>
+
+
+            <div
+                class="card"
+                id="desafioMemoria">
+
+                <div class="check"></div>
+
+                <h3>🧠 Teste de Memória</h3>
+
+                <p>
+                    Encontre todos os pares.
+                </p>
+
+                <strong>30 pontos</strong>
+
+            </div>
+
+
+            <div
+                class="card"
+                id="desafioReflexo">
+
+                <div class="check"></div>
+
+                <h3>⚡ Teste de Reflexo</h3>
+
+                <p>
+                    Clique no momento certo.
+                </p>
+
+                <strong>25 pontos</strong>
+
+            </div>
+
+
+            <div
+                class="card"
+                id="desafioCodigo">
+
+                <div class="check"></div>
+
+                <h3>🔐 Código Secreto</h3>
+
+                <p>
+                    Memorize as sequências.
+                </p>
+
+                <strong>25 pontos</strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         PRESENTES
+    ========================== -->
+
+    <section id="presentesTela" class="oculto">
+
+        <h2>🎁 PRESENTE MISTERIOSO</h2>
+
+        <p>
+            Apenas um desses presentes contém
+            algo especial.
+        </p>
+
+        <div class="presentes">
+
+            <div class="presente">🎁</div>
+
+            <div class="presente">🎁</div>
+
+            <div class="presente">🎁</div>
+
+        </div>
+
+        <div
+            class="resultado"
+            id="resultadoPresente">
+        </div>
+
+        <button
+            class="voltar"
+            id="voltarPresentes">
+            VOLTAR
+        </button>
+
+    </section>
+
+
+    <!-- =========================
+         MEMÓRIA
+    ========================== -->
+
+    <section id="memoriaTela" class="oculto">
+
+        <h2>🧠 TESTE DE MEMÓRIA</h2>
+
+        <div
+            class="mensagem-rodada"
+            id="mensagemMemoria">
+        </div>
+
+        <div class="memoria-info">
+
+            Rodada:
+            <span id="rodadaMemoria">1</span>/3
+
+            <br>
+
+            Pares:
+            <span id="paresMemoria">0</span>
+
+        </div>
+
+        <div
+            class="memoria-grid"
+            id="memoriaGrid">
+        </div>
+
+        <button
+            class="voltar"
+            id="voltarMemoria">
+            VOLTAR
+        </button>
+
+    </section>
+
+
+    <!-- =========================
+         REFLEXO
+    ========================== -->
+
+    <section id="reflexoTela" class="oculto">
+
+        <h2>⚡ TESTE DE REFLEXO</h2>
+
+        <p id="textoReflexo">
+            Prepare-se para os testes.
+        </p>
+
+        <div
+            class="memoria-info">
+
+            Teste:
+            <span id="testeReflexo">1</span>/3
+
+            <br>
+
+            Acertos:
+            <span id="acertosReflexo">0</span>/3
+
+        </div>
+
+        <div
+            class="reflexo-circulo"
+            id="reflexo">
+
+            CLIQUE PARA COMEÇAR
+
+        </div>
+
+        <div
+            class="resultado"
+            id="resultadoReflexo">
+        </div>
+
+        <button
+            class="voltar"
+            id="voltarReflexo">
+            VOLTAR
+        </button>
+
+    </section>
+
+
+    <!-- =========================
+         CÓDIGO SECRETO
+    ========================== -->
+
+    <section id="codigoTela" class="oculto">
+
+        <!-- TELA INICIAL -->
+
+        <div id="codigoInicio">
+
+            <div class="codigo-tela-inicial">
+
+                <div class="codigo-icone">
+                    🔐
+                </div>
+
+                <h2>CÓDIGO SECRETO</h2>
+
+                <p>
+                    Sua memória será colocada à prova.
+                </p>
+
+                <p>
+                    Você terá alguns segundos para
+                    memorizar cada sequência.
+                </p>
+
+                <p>
+                    São <strong>4 rodadas</strong>.
+                    Cada uma fica mais difícil.
+                </p>
+
+                <br>
+
+                <button id="comecarCodigo">
+                    COMEÇAR
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- JOGO -->
+
+        <div
+            id="codigoJogo"
+            class="oculto">
+
+            <h2>
+                🔐 CÓDIGO SECRETO
+            </h2>
+
+            <div class="memoria-info">
+
+                Rodada:
+                <span id="rodadaCodigo">
+                    1
+                </span>/4
+
+            </div>
+
+            <div
+                class="codigo-sequencia"
+                id="codigoSequencia">
+            </div>
+
+            <p id="textoCodigo">
+            </p>
+
+            <div
+                class="codigo-opcoes"
+                id="codigoOpcoes">
+            </div>
+
+        </div>
+
+
+        <div
+            class="resultado"
+            id="resultadoCodigo">
+        </div>
+
+        <button
+            class="voltar"
+            id="voltarCodigo">
+            VOLTAR
+        </button>
+
+    </section>
+
+
+    <!-- =========================
+         FINAL
+    ========================== -->
+
+    <section
+        id="final"
+        class="oculto final">
+
+        <h1>
+            🎉 PARABÉNS!
+        </h1>
+
+        <h2>
+            Aniversariante Oficial
+        </h2>
+
+        <div class="nota-final">
+            100/100
+        </div>
+
+        <p>
+            Você completou todos os desafios!
+        </p>
+
+        <p>
+            Obrigado por participar desse jogo
+            completamente desnecessário.
+        </p>
+
+        <h2>
+            Feliz aniversário! ❤️
+        </h2>
+
+    </section>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   ESTADO GERAL
+===================================================== */
+
+let pontuacao = 0;
+
+let desafiosCompletos = {
+
+    presentes: false,
+    memoria: false,
+    reflexo: false,
+    codigo: false
+
+};
+
+
+/* =====================================================
+   FUNÇÕES GERAIS
+===================================================== */
+
+function mostrarTela(id) {
+
+    document
+        .querySelectorAll("section")
+        .forEach(secao => {
+
+            secao.classList.add("oculto");
+
+        });
+
+    document
+        .getElementById(id)
+        .classList.remove("oculto");
+
+}
+
+
+function atualizarPontuacao() {
+
+    document.getElementById("pontuacao")
+        .textContent = pontuacao;
+
+}
+
+
+function atualizarProgresso() {
+
+    let completos = 0;
+
+    Object.values(desafiosCompletos)
+        .forEach(valor => {
+
+            if (valor) completos++;
+
+        });
+
+    let porcentagem =
+        (completos / 4) * 100;
+
+    document.getElementById("progresso")
+        .style.width = porcentagem + "%";
+
+
+    atualizarCartoes();
+
+}
+
+
+function atualizarCartoes() {
+
+    const dados = [
+
+        ["desafioPresentes", "presentes"],
+        ["desafioMemoria", "memoria"],
+        ["desafioReflexo", "reflexo"],
+        ["desafioCodigo", "codigo"]
+
+    ];
+
+    dados.forEach(([id, desafio]) => {
+
+        const card =
+            document.getElementById(id);
+
+        const check =
+            card.querySelector(".check");
+
+        if (desafiosCompletos[desafio]) {
+
+            card.classList.add("completo");
+
+            check.textContent = "✅";
+
+        } else {
+
+            card.classList.remove("completo");
+
+            check.textContent = "";
+
+        }
+
+    });
+
+}
+
+
+function todosCompletos() {
+
+    return Object.values(desafiosCompletos)
+        .every(valor => valor === true);
+
+}
+
+
+function depoisDoResultado() {
+
+    atualizarPontuacao();
+    atualizarProgresso();
+
+    setTimeout(() => {
+
+        if (todosCompletos()) {
+
+            mostrarTela("final");
+
+        } else {
+
+            mostrarTela("menu");
+
+        }
+
+    }, 3500);
+
+}
+
+
+/* =====================================================
+   INÍCIO
+===================================================== */
+
+document
+    .getElementById("comecar")
+    .addEventListener("click", () => {
+
+        mostrarTela("menu");
+
+    });
+
+
+/* =====================================================
+   MENU
+===================================================== */
+
+document
+    .getElementById("desafioPresentes")
+    .addEventListener("click", () => {
+
+        if (desafiosCompletos.presentes)
+            return;
+
+        iniciarPresentes();
+
+        mostrarTela("presentesTela");
+
+    });
+
+
+document
+    .getElementById("desafioMemoria")
+    .addEventListener("click", () => {
+
+        if (desafiosCompletos.memoria)
+            return;
+
+        iniciarMemoria();
+
+        mostrarTela("memoriaTela");
+
+    });
+
+
+document
+    .getElementById("desafioReflexo")
+    .addEventListener("click", () => {
+
+        if (desafiosCompletos.reflexo)
+            return;
+
+        iniciarReflexo();
+
+        mostrarTela("reflexoTela");
+
+    });
+
+
+document
+    .getElementById("desafioCodigo")
+    .addEventListener("click", () => {
+
+        if (desafiosCompletos.codigo)
+            return;
+
+        iniciarCodigo();
+
+        mostrarTela("codigoTela");
+
+    });
+
+
+/* =====================================================
+   PRESENTE MISTERIOSO
+===================================================== */
+
+const presentes =
+    document.querySelectorAll(".presente");
+
+const resultadoPresente =
+    document.getElementById(
+        "resultadoPresente"
+    );
+
+let presenteCorreto = 0;
+
+let presentesBloqueados = false;
+
+
+function iniciarPresentes() {
+
+    presenteCorreto =
+        Math.floor(
+            Math.random() *
+            presentes.length
+        );
+
+    presentesBloqueados = false;
+
+    resultadoPresente.innerHTML = "";
+
+    presentes.forEach(presente => {
+
+        presente.textContent = "🎁";
+
+        presente.classList.remove(
+            "escolhido"
+        );
+
+    });
+
+}
+
+
+presentes.forEach((presente, index) => {
+
+    presente.addEventListener("click", () => {
+
+        if (presentesBloqueados)
+            return;
+
+        if (
+            desafiosCompletos.presentes
+        )
+            return;
+
+
+        /* ERRADO */
+
+        if (index !== presenteCorreto) {
+
+            presente.textContent = "❌";
+
+            resultadoPresente.innerHTML = `
+                😅 <strong>Esse não!</strong><br>
+                Esse presente estava vazio...<br>
+                Tente outro!
+            `;
+
+            setTimeout(() => {
+
+                presente.textContent = "🎁";
+
+            }, 1000);
+
+
+            setTimeout(() => {
+
+                resultadoPresente.innerHTML = "";
+
+            }, 1800);
+
+            return;
+
+        }
+
+
+        /* CERTO */
+
+        presentesBloqueados = true;
+
+        presente.textContent = "🎉";
+
+        presente.classList.add(
+            "escolhido"
+        );
+
+        resultadoPresente.innerHTML = `
+            🎉 <strong>Você encontrou!</strong><br>
+            Esse era o presente especial!<br>
+            <strong>+20 PONTOS</strong>
+        `;
+
+
+        desafiosCompletos.presentes = true;
+
+        pontuacao += 20;
+
+        depoisDoResultado();
+
+    });
+
+});
+
+
+document
+    .getElementById("voltarPresentes")
+    .addEventListener("click", () => {
+
+        mostrarTela("menu");
+
+    });
+
+
+/* =====================================================
+   JOGO DA MEMÓRIA
+===================================================== */
+
+const emojisMemoria = [
+
+    "🍎",
+    "⭐",
+    "🎂",
+    "🌈",
+    "🍀",
+    "🌙",
+    "🎈",
+    "🦋"
+
+];
+
+
+let cartas = [];
+
+let cartasViradas = [];
+
+let paresEncontrados = 0;
+
+let bloqueado = false;
+
+let rodadaMemoriaAtual = 1;
+
+let totalParesRodada = 4;
+
+
+function criarCartasMemoria(
+    quantidadePares
+) {
+
+    let selecionados =
+        emojisMemoria.slice(
+            0,
+            quantidadePares
+        );
+
+    let lista = [
+        ...selecionados,
+        ...selecionados
+    ];
+
+    lista.sort(
+        () => Math.random() - 0.5
+    );
+
+    cartas = lista;
+
+    cartasViradas = [];
+
+    paresEncontrados = 0;
+
+    bloqueado = false;
+
+    totalParesRodada =
+        quantidadePares;
+
+    const grid =
+        document.getElementById(
+            "memoriaGrid"
+        );
+
+    grid.innerHTML = "";
+
+    lista.forEach((emoji, index) => {
+
+        const carta =
+            document.createElement("div");
+
+        carta.className = "carta";
+
+        carta.dataset.index = index;
+
+        carta.textContent = emoji;
+
+        carta.addEventListener(
+            "click",
+            () => virarCarta(index)
+        );
+
+        grid.appendChild(carta);
+
+    });
+
+
+    atualizarMemoriaInfo();
+
+}
+
+
+function atualizarMemoriaInfo() {
+
+    document.getElementById(
+        "rodadaMemoria"
+    ).textContent =
+        rodadaMemoriaAtual;
+
+    document.getElementById(
+        "paresMemoria"
+    ).textContent =
+        paresEncontrados;
+
+}
+
+
+function iniciarMemoria() {
+
+    rodadaMemoriaAtual = 1;
+
+    const mensagem =
+        document.getElementById(
+            "mensagemMemoria"
+        );
+
+    mensagem.innerHTML = `
+        🧠 <strong>RODADA 1</strong><br>
+        Encontre os 4 pares!
+    `;
+
+    criarCartasMemoria(4);
+
+}
+
+
+function virarCarta(index) {
+
+    if (bloqueado)
+        return;
+
+    const elementos =
+        document.querySelectorAll(
+            ".carta"
+        );
+
+    const carta =
+        elementos[index];
+
+    if (
+        carta.classList.contains(
+            "virada"
+        ) ||
+        carta.classList.contains(
+            "encontrada"
+        )
+    )
+        return;
+
+
+    carta.classList.add("virada");
+
+    cartasViradas.push(index);
+
+
+    if (cartasViradas.length < 2)
+        return;
+
+
+    bloqueado = true;
+
+
+    const primeira =
+        cartasViradas[0];
+
+    const segunda =
+        cartasViradas[1];
+
+
+    if (
+        cartas[primeira] ===
+        cartas[segunda]
+    ) {
+
+        elementos[primeira]
+            .classList.add(
+                "encontrada"
+            );
+
+        elementos[segunda]
+            .classList.add(
+                "encontrada"
+            );
+
+        paresEncontrados++;
+
+        cartasViradas = [];
+
+        bloqueado = false;
+
+        atualizarMemoriaInfo();
+
+
+        if (
+            paresEncontrados ===
+            totalParesRodada
+        ) {
+
+            finalizarRodadaMemoria();
+
+        }
+
+    } else {
+
+        setTimeout(() => {
+
+            elementos[primeira]
+                .classList.remove(
+                    "virada"
+                );
+
+            elementos[segunda]
+                .classList.remove(
+                    "virada"
+                );
+
+            cartasViradas = [];
+
+            bloqueado = false;
+
+        }, 1300);
+
+    }
+
+}
+
+
+function finalizarRodadaMemoria() {
+
+    const mensagem =
+        document.getElementById(
+            "mensagemMemoria"
+        );
+
+    mensagem.innerHTML = `
+        🎉 <strong>RODADA ${rodadaMemoriaAtual}
+        CONCLUÍDA!</strong><br>
+        Você encontrou todos os pares!
+    `;
+
+
+    if (rodadaMemoriaAtual < 3) {
+
+        setTimeout(() => {
+
+            rodadaMemoriaAtual++;
+
+            let quantidade;
+
+            if (rodadaMemoriaAtual === 2) {
+
+                quantidade = 6;
+
+            } else {
+
+                quantidade = 8;
+
+            }
+
+
+            mensagem.innerHTML = `
+                🧠 <strong>RODADA
+                ${rodadaMemoriaAtual}</strong><br>
+                Agora ficou mais difícil!
+            `;
+
+
+            setTimeout(() => {
+
+                criarCartasMemoria(
+                    quantidade
+                );
+
+            }, 1800);
+
+        }, 2200);
+
+        return;
+
+    }
+
+
+    /* FINAL DO JOGO */
+
+    setTimeout(() => {
+
+        mensagem.innerHTML = `
+            🧠 <strong>MEMÓRIA COMPLETA!</strong><br>
+            Você venceu as 3 rodadas!<br>
+            <strong>+30 PONTOS</strong>
+        `;
+
+        desafiosCompletos.memoria = true;
+
+        pontuacao += 30;
+
+        depoisDoResultado();
+
+    }, 2200);
+
+}
+
+
+document
+    .getElementById("voltarMemoria")
+    .addEventListener("click", () => {
+
+        mostrarTela("menu");
+
+    });
+
+
+/* =====================================================
+   JOGO DO REFLEXO
+===================================================== */
+
+let reflexoTimeout;
+
+let reflexoIniciado = false;
+
+let reflexoPreparando = false;
+
+let tempoInicio;
+
+let testeReflexoAtual = 1;
+
+let acertosReflexo = 0;
+
+let reflexoFinalizado = false;
+
+
+const reflexo =
+    document.getElementById(
+        "reflexo"
+    );
+
+const textoReflexo =
+    document.getElementById(
+        "textoReflexo"
+    );
+
+const resultadoReflexo =
+    document.getElementById(
+        "resultadoReflexo"
+    );
+
+
+function iniciarReflexo() {
+
+    clearTimeout(reflexoTimeout);
+
+    reflexoIniciado = false;
+
+    reflexoPreparando = false;
+
+    reflexoFinalizado = false;
+
+    testeReflexoAtual = 1;
+
+    acertosReflexo = 0;
+
+    reflexo.className =
+        "reflexo-circulo";
+
+    reflexo.textContent =
+        "CLIQUE PARA COMEÇAR";
+
+    textoReflexo.textContent =
+        "Você terá 3 testes. Clique no círculo para iniciar.";
+
+    resultadoReflexo.innerHTML = "";
+
+    atualizarReflexoInfo();
+
+}
+
+
+function atualizarReflexoInfo() {
+
+    document.getElementById(
+        "testeReflexo"
+    ).textContent =
+        testeReflexoAtual;
+
+    document.getElementById(
+        "acertosReflexo"
+    ).textContent =
+        acertosReflexo;
+
+}
+
+
+reflexo.addEventListener(
+    "click",
+    () => {
+
+        if (reflexoFinalizado)
+            return;
+
+
+        /* COMEÇAR TESTE */
+
+        if (
+            !reflexoPreparando &&
+            !reflexoIniciado
+        ) {
+
+            reflexoPreparando = true;
+
+            reflexo.className =
+                "reflexo-circulo esperar";
+
+            reflexo.textContent =
+                "ESPERE...";
+
+            textoReflexo.textContent =
+                "Não clique ainda!";
+
+            resultadoReflexo.innerHTML = "";
+
+
+            const espera =
+                1800 +
+                Math.random() * 3000;
+
+
+            reflexoTimeout =
+                setTimeout(() => {
+
+                    reflexoPreparando = false;
+
+                    reflexoIniciado = true;
+
+                    reflexo.className =
+                        "reflexo-circulo agora";
+
+                    reflexo.textContent =
+                        "AGORA!";
+
+                    tempoInicio =
+                        performance.now();
+
+                }, espera);
+
+            return;
+
+        }
+
+
+        /* CLICOU CEDO */
+
+        if (reflexoPreparando) {
+
+            clearTimeout(
+                reflexoTimeout
+            );
+
+            reflexoPreparando = false;
+
+            reflexoIniciado = false;
+
+            reflexo.className =
+                "reflexo-circulo erro";
+
+            reflexo.textContent =
+                "ERRO!";
+
+            resultadoReflexo.innerHTML = `
+                😅 <strong>CALMA!</strong><br>
+                Você clicou antes da hora.<br>
+                Tente novamente.
+            `;
+
+
+            setTimeout(() => {
+
+                if (!reflexoFinalizado) {
+
+                    reflexo.className =
+                        "reflexo-circulo";
+
+                    reflexo.textContent =
+                        "CLIQUE PARA COMEÇAR";
+
+                    textoReflexo.textContent =
+                        "Vamos tentar novamente.";
+
+                }
+
+            }, 2500);
+
+            return;
+
+        }
+
+
+        /* CLICOU DEPOIS */
+
+        if (reflexoIniciado) {
+
+            const tempo =
+                Math.round(
+                    performance.now() -
+                    tempoInicio
+                );
+
+            reflexoIniciado = false;
+
+            acertosReflexo++;
+
+            atualizarReflexoInfo();
+
+            reflexo.className =
+                "reflexo-circulo";
+
+            reflexo.textContent =
+                tempo + " ms";
+
+            resultadoReflexo.innerHTML = `
+                🎉 <strong>ACERTOU!</strong><br>
+                Seu tempo foi de <strong>${tempo} ms</strong>.<br>
+                Muito bom!
+            `;
+
+
+            if (
+                testeReflexoAtual >= 3
+            ) {
+
+                finalizarReflexo();
+
+                return;
+
+            }
+
+
+            setTimeout(() => {
+
+                testeReflexoAtual++;
+
+                atualizarReflexoInfo();
+
+                reflexo.className =
+                    "reflexo-circulo";
+
+                reflexo.textContent =
+                    "CLIQUE PARA COMEÇAR";
+
+                textoReflexo.textContent =
+                    "Pronto para o próximo teste?";
+
+                resultadoReflexo.innerHTML = "";
+
+            }, 2300);
+
+        }
+
+    }
+);
+
+
+function finalizarReflexo() {
+
+    reflexoFinalizado = true;
+
+    let mensagem = "";
+
+    if (acertosReflexo === 3) {
+
+        mensagem = `
+            ⚡ <strong>REFLEXO PERFEITO!</strong><br>
+            Você acertou os 3 testes!<br>
+            <strong>+25 PONTOS</strong>
+        `;
+
+    } else if (acertosReflexo === 2) {
+
+        mensagem = `
+            ⚡ <strong>BOM REFLEXO!</strong><br>
+            Você acertou 2 de 3 testes.<br>
+            <strong>+25 PONTOS</strong>
+        `;
+
+    } else {
+
+        mensagem = `
+            😅 <strong>FOI POR POUCO!</strong><br>
+            Você acertou 1 de 3 testes.<br>
+            <strong>+25 PONTOS</strong>
+        `;
+
+    }
+
+
+    resultadoReflexo.innerHTML =
+        mensagem;
+
+
+    desafiosCompletos.reflexo = true;
+
+    pontuacao += 25;
+
+    depoisDoResultado();
+
+}
+
+
+document
+    .getElementById("voltarReflexo")
+    .addEventListener("click", () => {
+
+        clearTimeout(
+            reflexoTimeout
+        );
+
+        mostrarTela("menu");
+
+    });
+
+
+/* =====================================================
+   CÓDIGO SECRETO
+===================================================== */
+
+const simbolosCodigo = [
+
+    "🍎",
+    "🔵",
+    "⭐",
+    "🟢",
+    "🔥",
+    "💜",
+    "🌙",
+    "🍀"
+
+];
+
+
+let rodadaCodigo = 1;
+
+const totalRodadasCodigo = 4;
+
+let codigoAtual = [];
+
+let respostaCodigo = [];
+
+let codigoBloqueado = false;
+
+let codigoAtivo = false;
+
+
+const codigoInicio =
+    document.getElementById(
+        "codigoInicio"
+    );
+
+const codigoJogo =
+    document.getElementById(
+        "codigoJogo"
+    );
+
+const codigoSequencia =
+    document.getElementById(
+        "codigoSequencia"
+    );
+
+const codigoOpcoes =
+    document.getElementById(
+        "codigoOpcoes"
+    );
+
+const textoCodigo =
+    document.getElementById(
+        "textoCodigo"
+    );
+
+const resultadoCodigo =
+    document.getElementById(
+        "resultadoCodigo"
+    );
+
+
+function iniciarCodigo() {
+
+    rodadaCodigo = 1;
+
+    codigoAtual = [];
+
+    respostaCodigo = [];
+
+    codigoBloqueado = false;
+
+    codigoAtivo = false;
+
+    codigoInicio.classList.remove(
+        "oculto"
+    );
+
+    codigoJogo.classList.add(
+        "oculto"
+    );
+
+    resultadoCodigo.innerHTML = "";
+
+}
+
+
+document
+    .getElementById("comecarCodigo")
+    .addEventListener(
+        "click",
+        () => {
+
+            codigoInicio.classList.add(
+                "oculto"
+            );
+
+            codigoJogo.classList.remove(
+                "oculto"
+            );
+
+            mostrarRodadaCodigo();
+
+        }
+    );
+
+
+function gerarCodigo(tamanho) {
+
+    let codigo = [];
+
+    for (
+        let i = 0;
+        i < tamanho;
+        i++
+    ) {
+
+        const simbolo =
+            simbolosCodigo[
+                Math.floor(
+                    Math.random() *
+                    simbolosCodigo.length
+                )
+            ];
+
+        codigo.push(simbolo);
+
+    }
+
+    return codigo;
+
+}
+
+
+function mostrarRodadaCodigo() {
+
+    codigoBloqueado = true;
+
+    codigoAtivo = false;
+
+    respostaCodigo = [];
+
+    codigoAtual =
+        gerarCodigo(
+            rodadaCodigo + 2
+        );
+
+
+    document.getElementById(
+        "rodadaCodigo"
+    ).textContent =
+        rodadaCodigo;
+
+
+    codigoSequencia.textContent =
+        "";
+
+    codigoOpcoes.innerHTML =
+        "";
+
+    resultadoCodigo.innerHTML =
+        "";
+
+    textoCodigo.textContent =
+        "Memorize o código!";
+
+
+    let indice = 0;
+
+
+    const intervalo =
+        setInterval(() => {
+
+            if (
+                indice <
+                codigoAtual.length
+            ) {
+
+                codigoSequencia.textContent +=
+                    codigoAtual[indice] + " ";
+
+                indice++;
+
+            } else {
+
+                clearInterval(intervalo);
+
+
+                setTimeout(() => {
+
+                    codigoSequencia.textContent =
+                        "❓ ❓ ❓";
+
+                    textoCodigo.textContent =
+                        "Agora repita o código na mesma ordem.";
+
+                    criarOpcoesCodigo();
+
+                    codigoBloqueado = false;
+
+                    codigoAtivo = true;
+
+                }, 1700);
+
+            }
+
+        }, 650);
+
+}
+
+
+function criarOpcoesCodigo() {
+
+    codigoOpcoes.innerHTML =
+        "";
+
+    simbolosCodigo.forEach(
+        simbolo => {
+
+            const botao =
+                document.createElement(
+                    "button"
+                );
+
+            botao.textContent =
+                simbolo;
+
+            botao.type =
+                "button";
+
+            botao.addEventListener(
+                "click",
+                () => {
+
+                    escolherSimboloCodigo(
+                        simbolo
+                    );
+
+                }
+            );
+
+            codigoOpcoes.appendChild(
+                botao
+            );
+
+        }
+    );
+
+}
+
+
+function escolherSimboloCodigo(
+    simbolo
+) {
+
+    if (
+        codigoBloqueado ||
+        !codigoAtivo
+    )
+        return;
+
+
+    const posicao =
+        respostaCodigo.length;
+
+
+    if (
+        simbolo !==
+        codigoAtual[posicao]
+    ) {
+
+        codigoBloqueado = true;
+
+        codigoAtivo = false;
+
+        resultadoCodigo.innerHTML = `
+            ❌ <strong>CÓDIGO INCORRETO!</strong><br>
+            A sequência não estava certa.<br><br>
+            😅 Tente novamente!
+        `;
+
+        codigoSequencia.textContent =
+            codigoAtual.join(" ");
+
+        setTimeout(() => {
+
+            codigoInicio.classList.remove(
+                "oculto"
+            );
+
+            codigoJogo.classList.add(
+                "oculto"
+            );
+
+            codigoSequencia.textContent =
+                "";
+
+            codigoOpcoes.innerHTML =
+                "";
+
+            resultadoCodigo.innerHTML =
+                "";
+
+        }, 3200);
+
+        return;
+
+    }
+
+
+    respostaCodigo.push(simbolo);
+
+    codigoSequencia.textContent =
+        respostaCodigo.join(" ");
+
+
+    if (
+        respostaCodigo.length ===
+        codigoAtual.length
+    ) {
+
+        codigoBloqueado = true;
+
+        codigoAtivo = false;
+
+
+        if (
+            rodadaCodigo <
+            totalRodadasCodigo
+        ) {
+
+            resultadoCodigo.innerHTML = `
+                🎉 <strong>RODADA
+                ${rodadaCodigo}
+                CONCLUÍDA!</strong><br>
+                Você conseguiu!
+            `;
+
+
+            setTimeout(() => {
+
+                rodadaCodigo++;
+
+                mostrarRodadaCodigo();
+
+            }, 2300);
+
+        } else {
+
+            finalizarCodigo();
+
+        }
+
+    }
+
+}
+
+
+function finalizarCodigo() {
+
+    resultadoCodigo.innerHTML = `
+        🔐 <strong>CÓDIGO DECIFRADO!</strong><br>
+        Você conseguiu completar as 4 rodadas!<br><br>
+        <strong>+25 PONTOS</strong>
+    `;
+
+
+    desafiosCompletos.codigo = true;
+
+    pontuacao += 25;
+
+    depoisDoResultado();
+
+}
+
+
+document
+    .getElementById("voltarCodigo")
+    .addEventListener("click", () => {
+
+        codigoAtivo = false;
+
+        codigoBloqueado = true;
+
+        mostrarTela("menu");
+
+    });
+
+
+/* =====================================================
+   INICIALIZAÇÃO
+===================================================== */
+
+atualizarPontuacao();
+
+atualizarProgresso();
+
+</script>
+
+</body>
+</html>
